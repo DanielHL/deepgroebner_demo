@@ -266,8 +266,8 @@ class Agent:
         The learning rate for the policy model.
     policy_updates : int, optional
         The number of policy updates per epoch of training.
-    value_network : network, None, or string, optional
-        The network for the value model.
+    value_model : network, None, or string, optional
+        The model to use for generalized advantage estimation.
     value_lr : float, optional
         The learning rate for the value model.
     value_updates : int, optional
@@ -287,7 +287,7 @@ class Agent:
 
     def __init__(self,
                  policy_network, policy_lr=1e-4, policy_updates=1,
-                 value_network=None, value_lr=1e-3, value_updates=25,
+                 value_model=None, value_lr=1e-3, value_updates=25,
                  gam=0.99, lam=0.97, normalize_advantages=True, eps=0.2,
                  kld_limit=0.01, ent_bonus=0.0):
         self.policy_model = policy_network
@@ -295,7 +295,7 @@ class Agent:
         self.policy_optimizer = tf.keras.optimizers.Adam(lr=policy_lr)
         self.policy_updates = policy_updates
 
-        self.value_model = value_network
+        self.value_model = value_model
         self.value_loss = tf.keras.losses.mse
         self.value_optimizer = tf.keras.optimizers.Adam(lr=value_lr)
         self.value_updates = value_updates
